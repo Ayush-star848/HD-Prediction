@@ -219,10 +219,34 @@ function renderResults(data) {
 }
 
 /* ── Go to summary page ─────────────────────────────────────── */
-function goToSummary() {
+// function goToSummary() {
+//   if (!_lastSummary) return;
+//   const encoded = encodeURIComponent(JSON.stringify(_lastSummary));
+//   window.location.href = `/summary?data=${encoded}`;
+// }
+
+async function goToSummary() {
   if (!_lastSummary) return;
-  const encoded = encodeURIComponent(JSON.stringify(_lastSummary));
-  window.location.href = `/summary?data=${encoded}`;
+
+  try {
+    const res = await fetch("/api/store-summary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_lastSummary),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      window.location.href = "/summary";
+    } else {
+      alert("Failed to open summary page.");
+    }
+  } catch (err) {
+    alert("Network error while opening summary.");
+  }
 }
 
 /* ── Reset ──────────────────────────────────────────────────── */
