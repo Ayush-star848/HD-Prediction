@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CardioSense AI — Action Plan</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+{# ── Navbar ──────────────────────────────────────────────────── #}
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="brand-heart">&#x2665;</span>
+      <span class="brand-text">CardioSense <em>AI</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">&#8592; New Assessment</a>
+      <a href="/bulk" class="nav-link">Bulk Upload</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <span class="theme-icon">&#127769;</span>
+      </button>
+      <button class="btn-print" onclick="window.print()">&#128424; Print Plan</button>
+    </div>
+  </div>
+</nav>
+
+<main class="main-wrap">
+
+  {# pull out frequently used values #}
+  {% set d    = data %}
+  {% set tier = d.risk_tier %}
+  {% set prob = d.probability %}
+
+  {# ── BTP banner ───────────────────────────────────────────── #}
+  <div class="btp-banner">
+    <span class="btp-tag">B.Tech Final Year Project (BTP) &middot; 2026</span>
+    <span class="btp-sep">&middot;</span>
+    <span class="btp-title">CardioSense AI &mdash; Heart Disease Prediction Using Ensemble Machine Learning</span>
+  </div>
+
+  {# ── Risk summary card ────────────────────────────────────── #}
+  <div class="summary-banner {{ tier }}">
+    <div class="sb-left">
+      <div class="sb-eyebrow">Personalised Heart Health Report</div>
+      <h1 class="sb-title">
+        {% if tier == 'high'   %}&#9888; High Risk Detected
+        {% elif tier == 'medium' %}&#128276; Moderate Risk Detected
+        {% else %}&#9989; Low Risk Profile
+        {% endif %}
+      </h1>
+      <p class="sb-desc">
+        {% if tier == 'high' %}
+          Your cardiovascular risk profile requires immediate medical attention.
+          Follow the action plan below and consult a cardiologist as soon as possible.
+        {% elif tier == 'medium' %}
+          Your profile shows several modifiable risk factors. Proactive action now
+          can significantly reduce your long-term cardiovascular risk.
+        {% else %}
+          Your current profile shows a relatively low risk. Maintaining healthy
+          habits is key to keeping it that way.
+        {% endif %}
+      </p>
+      <div class="sb-meta">
+        <span class="sb-meta-item">
+          <span class="sb-meta-icon">&#129302;</span>
+          Best Model:
+          <strong>{{ d.best_model.display_name if d.best_model else 'Voting Ensemble' }}</strong>
+          ({{ d.best_model.accuracy if d.best_model else 96 }}% accuracy)
+        </span>
+        <span class="sb-meta-item">
+          <span class="sb-meta-icon">&#128202;</span>
+          Ensemble Risk Score: <strong>{{ prob }}%</strong>
+        </span>
+        <span class="sb-meta-item">
+          <span class="sb-meta-icon">&#127891;</span>
+          BTP Project &middot; 2026
+        </span>
+      </div>
+    </div>
+    <div class="sb-right">
+      <div class="sb-gauge {{ tier }}">
+        <svg viewBox="0 0 140 80">
+          <path d="M10,70 A60,60 0 0,1 130,70"
+                fill="none" stroke="rgba(255,255,255,0.12)"
+                stroke-width="12" stroke-linecap="round"/>
+          <path d="M10,70 A60,60 0 0,1 130,70"
+                fill="none"
+                stroke="{% if tier=='high' %}#e63946{% elif tier=='medium' %}#ffd166{% else %}#06d6a0{% endif %}"
+                stroke-width="12" stroke-linecap="round"
+                stroke-dasharray="188.5"
+                stroke-dashoffset="{{ (188.5 * (1 - prob / 100)) | int }}"/>
+        </svg>
+        <div class="sb-gauge-center">
+          <span class="sb-gauge-pct">{{ prob }}%</span>
+          <span class="sb-gauge-lbl">Risk Score</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── 01 Risk Factors ─────────────────────────────────────── #}
+  {% if d.risk_factors %}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">01</span>
+      <h2 class="ss-title">Risk Factors Identified</h2>
+    </div>
+    <div class="rf-grid">
+      {% for rf in d.risk_factors %}
+      <div class="rf-card {{ rf.level }}">
+        <div class="rf-factor">{{ rf.factor }}</div>
+        <div class="rf-value">{{ rf.value }}</div>
+        <div class="rf-level-dot {{ rf.level }}"></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {# ── 02 Immediate Actions ─────────────────────────────────── #}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">02</span>
+      <h2 class="ss-title">Immediate Actions</h2>
+      <span class="ss-badge {{ tier }}">
+        {% if tier == 'high' %}Act Now
+        {% elif tier == 'medium' %}This Week
+        {% else %}Routine
+        {% endif %}
+      </span>
+    </div>
+    <div class="immediate-grid">
+      {% for action in d.immediate_actions %}
+      <div class="imm-card {{ tier }}">
+        <span class="imm-icon">{{ action.icon }}</span>
+        <span class="imm-text">{{ action.text }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── 03 What To Do ────────────────────────────────────────── #}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">03</span>
+      <h2 class="ss-title">What To Do</h2>
+    </div>
+    <div class="action-cats">
+      {#
+        Each cat dict has keys: category, icon, points
+        We use 'points' (NOT 'items') because dict.items is a Python built-in
+        method and accessing cat.items in Jinja2 returns the method object,
+        not our list, causing:
+          TypeError: 'builtin_function_or_method' object is not iterable
+      #}
+      {% for cat in d.actions_to_take %}
+      <div class="action-cat">
+        <div class="action-cat-header">
+          <span class="action-cat-icon">{{ cat.icon }}</span>
+          <span class="action-cat-name">{{ cat.category }}</span>
+        </div>
+        <ul class="action-list">
+          {% for point in cat.points %}
+          <li class="action-item">
+            <span class="action-bullet">&#8594;</span>
+            {{ point }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── 04 What To Avoid ─────────────────────────────────────── #}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">04</span>
+      <h2 class="ss-title">What To Avoid</h2>
+    </div>
+    <div class="avoid-grid">
+      {#
+        Each avoid dict has keys: icon, text
+        'text' is safe — not a Python dict built-in method.
+      #}
+      {% for avoid in d.things_to_avoid %}
+      <div class="avoid-card">
+        <span class="avoid-icon">{{ avoid.icon }}</span>
+        <span class="avoid-text">{{ avoid.text }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── 05 Warning Signs ─────────────────────────────────────── #}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">05</span>
+      <h2 class="ss-title">Warning Signs &mdash; Seek Emergency Care Immediately</h2>
+    </div>
+    <div class="warning-grid">
+      {% for w in d.warning_signs %}
+      <div class="warning-card">
+        <span class="warning-icon">{{ w.icon }}</span>
+        <span class="warning-text">{{ w.sign }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="emergency-box">
+      &#128680; If you experience any of the above symptoms, call emergency services
+      (112 / 911) immediately. Do not drive yourself to the hospital.
+    </div>
+  </div>
+
+  {# ── 06 Follow-up Schedule ────────────────────────────────── #}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">06</span>
+      <h2 class="ss-title">Follow-up Schedule</h2>
+    </div>
+    <div class="timeline">
+      {% for step in d.follow_up %}
+      <div class="tl-item">
+        <div class="tl-dot {{ tier }}"></div>
+        <div class="tl-line"></div>
+        <div class="tl-content">
+          <div class="tl-time">{{ step.timeframe }}</div>
+          <div class="tl-action">{{ step.action }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {# ── 07 Clinical Recommendations ──────────────────────────── #}
+  {% if d.recommendations %}
+  <div class="summary-section">
+    <div class="ss-header">
+      <span class="ss-num">07</span>
+      <h2 class="ss-title">Clinical Recommendations</h2>
+    </div>
+    <div class="rec-cards">
+      {% for rec in d.recommendations %}
+      <div class="recc {{ rec.priority }}">
+        <span class="recc-icon">{{ rec.icon }}</span>
+        <div class="recc-title">{{ rec.title }}</div>
+        <div class="recc-body">{{ rec.body }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="disclaimer" style="margin-top:32px">
+    &#9877; This action plan is generated by the CardioSense AI B.Tech final year project
+    for educational and informational purposes only. It does not replace personalised advice
+    from a qualified cardiologist or physician. Please share this report with your doctor
+    at your next appointment.
+  </div>
+
+  <div style="text-align:center;margin:32px 0">
+    <a href="/" class="btn-analyse" style="display:inline-flex;width:auto;text-decoration:none">
+      &#8592; Start a New Assessment
+    </a>
+  </div>
+
+</main>
+
+{# ── Footer ──────────────────────────────────────────────────── #}
+<footer class="site-footer">
+  <span>CardioSense AI</span>
+  <span>&middot;</span>
+  <span>B.Tech Final Year Project (BTP)</span>
+  <span>&middot;</span>
+  <span>Heart Disease Prediction &middot; Ensemble ML</span>
+  <span>&middot;</span>
+  <span>&copy; 2026</span>
+</footer>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

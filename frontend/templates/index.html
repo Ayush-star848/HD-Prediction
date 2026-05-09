@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CardioSense AI — Heart Disease Risk Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ── Ambient bg orbs ──────────────────────────────────────────── -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ── Nav ──────────────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">
+      <span class="brand-heart">♥</span>
+      <span class="brand-text">CardioSense <em>AI</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link active">Predict</a>
+      <a href="/bulk" class="nav-link">Bulk Upload</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="main-wrap">
+
+  <!-- ── Hero ─────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Clinical AI · 9 ML Models · Ensemble Accuracy 96%
+    </div>
+    <h1 class="hero-title">
+      Predict Your<br/><span class="title-accent">Heart Disease Risk</span>
+    </h1>
+    <p class="hero-sub">
+      Enter 13 clinical parameters. Our ensemble of 9 machine learning models
+      analyses your cardiovascular risk profile and delivers personalised clinical guidance.
+    </p>
+    <!-- ECG line -->
+    <div class="ecg-wrap" aria-hidden="true">
+      <svg class="ecg-svg" viewBox="0 0 900 50" preserveAspectRatio="none">
+        <path class="ecg-path" d="M0,25 L80,25 L100,25 L115,8 L125,42 L132,2 L145,48 L155,25 L200,25
+          L260,25 L280,15 L292,35 L298,5 L310,45 L320,25 L380,25
+          L400,25 L415,8 L425,42 L432,2 L445,48 L455,25 L520,25
+          L540,15 L552,35 L558,5 L570,45 L580,25 L640,25
+          L660,25 L675,8 L685,42 L692,2 L705,48 L715,25 L780,25
+          L800,15 L812,35 L818,5 L830,45 L840,25 L900,25"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── Form ─────────────────────────────────────────────────── -->
+  <div class="form-container">
+    <div class="form-grid-header">
+      <div class="progress-steps">
+        <div class="step active" data-step="1"><span>1</span> Demographics</div>
+        <div class="step-sep">→</div>
+        <div class="step" data-step="2"><span>2</span> Cardiac</div>
+        <div class="step-sep">→</div>
+        <div class="step" data-step="3"><span>3</span> Advanced</div>
+        <div class="step-sep">→</div>
+        <div class="step" data-step="4"><span>4</span> Models</div>
+      </div>
+    </div>
+
+    <!-- Section 1: Demographics -->
+    <div class="form-section" id="sec1">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Demographics & Vitals</h2>
+      </div>
+      <div class="fields-grid g3">
+        <div class="field-group">
+          <label for="age">Age <span class="unit">years</span></label>
+          <div class="input-wrap">
+            <input type="number" id="age" min="18" max="100" placeholder="55"/>
+            <span class="input-range">18 – 100</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="sex">Biological Sex</label>
+          <div class="select-wrap">
+            <select id="sex">
+              <option value="">Select…</option>
+              <option value="1">Male</option>
+              <option value="0">Female</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="trestbps">Resting BP <span class="unit">mmHg</span></label>
+          <div class="input-wrap">
+            <input type="number" id="trestbps" min="80" max="220" placeholder="130"/>
+            <span class="input-range">80 – 220</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Section 2: Cardiac -->
+    <div class="form-section" id="sec2">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Cardiac Parameters</h2>
+      </div>
+      <div class="fields-grid g3">
+        <div class="field-group">
+          <label for="cp">Chest Pain Type</label>
+          <div class="select-wrap">
+            <select id="cp">
+              <option value="">Select…</option>
+              <option value="0">Typical Angina</option>
+              <option value="1">Atypical Angina</option>
+              <option value="2">Non-anginal Pain</option>
+              <option value="3">Asymptomatic</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="chol">Cholesterol <span class="unit">mg/dL</span></label>
+          <div class="input-wrap">
+            <input type="number" id="chol" min="100" max="600" placeholder="240"/>
+            <span class="input-range">100 – 600</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="thalach">Max Heart Rate <span class="unit">bpm</span></label>
+          <div class="input-wrap">
+            <input type="number" id="thalach" min="60" max="220" placeholder="150"/>
+            <span class="input-range">60 – 220</span>
+          </div>
+        </div>
+      </div>
+      <div class="fields-grid g3 mt16">
+        <div class="field-group">
+          <label for="fbs">Fasting Blood Sugar</label>
+          <div class="select-wrap">
+            <select id="fbs">
+              <option value="">Select…</option>
+              <option value="0">≤ 120 mg/dL — Normal</option>
+              <option value="1">&gt; 120 mg/dL — High</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="restecg">Resting ECG</label>
+          <div class="select-wrap">
+            <select id="restecg">
+              <option value="">Select…</option>
+              <option value="0">Normal</option>
+              <option value="1">ST-T Abnormality</option>
+              <option value="2">LV Hypertrophy</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="exang">Exercise Angina</label>
+          <div class="select-wrap">
+            <select id="exang">
+              <option value="">Select…</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Section 3: Advanced -->
+    <div class="form-section" id="sec3">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Advanced Indicators</h2>
+      </div>
+      <div class="fields-grid g3">
+        <div class="field-group">
+          <label for="oldpeak">ST Depression <span class="unit">mm</span></label>
+          <div class="input-wrap">
+            <input type="number" id="oldpeak" min="0" max="6.2" step="0.1" placeholder="1.5"/>
+            <span class="input-range">0 – 6.2</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="slope">ST Slope</label>
+          <div class="select-wrap">
+            <select id="slope">
+              <option value="">Select…</option>
+              <option value="0">Upsloping</option>
+              <option value="1">Flat</option>
+              <option value="2">Downsloping</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="ca">Major Vessels <span class="unit">fluoroscopy</span></label>
+          <div class="select-wrap">
+            <select id="ca">
+              <option value="">Select…</option>
+              <option value="0">0 vessels</option>
+              <option value="1">1 vessel</option>
+              <option value="2">2 vessels</option>
+              <option value="3">3 vessels</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="fields-grid g2 mt16">
+        <div class="field-group">
+          <label for="thal">Thalassemia</label>
+          <div class="select-wrap">
+            <select id="thal">
+              <option value="">Select…</option>
+              <option value="1">Normal</option>
+              <option value="2">Fixed Defect</option>
+              <option value="3">Reversible Defect</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="bmi">BMI <span class="unit">kg/m² · optional</span></label>
+          <div class="input-wrap">
+            <input type="number" id="bmi" min="15" max="50" step="0.1" placeholder="27.4"/>
+            <span class="input-range">15 – 50</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Section 4: Model selector -->
+    <div class="form-section" id="sec4">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Select ML Models</h2>
+        <span class="section-hint">Click to toggle — all selected by default</span>
+      </div>
+      <div class="model-chips" id="modelChips">
+        <div class="mchip active" data-model="logistic_regression">
+          <span class="mchip-acc">86%</span> Logistic Regression
+        </div>
+        <div class="mchip active" data-model="random_forest">
+          <span class="mchip-acc">93%</span> Random Forest
+        </div>
+        <div class="mchip active" data-model="svm">
+          <span class="mchip-acc">91%</span> SVM
+        </div>
+        <div class="mchip active" data-model="xgboost">
+          <span class="mchip-acc">95%</span> XGBoost
+        </div>
+        <div class="mchip active" data-model="gradient_boosting">
+          <span class="mchip-acc">94%</span> Gradient Boosting
+        </div>
+        <div class="mchip active" data-model="knn">
+          <span class="mchip-acc">85%</span> K-NN
+        </div>
+        <div class="mchip active" data-model="naive_bayes">
+          <span class="mchip-acc">82%</span> Naïve Bayes
+        </div>
+        <div class="mchip active" data-model="decision_tree">
+          <span class="mchip-acc">84%</span> Decision Tree
+        </div>
+        <div class="mchip active star" data-model="voting_ensemble">
+          <span class="mchip-acc">96%</span> ★ Voting Ensemble
+        </div>
+      </div>
+    </div>
+
+    <!-- Error box -->
+    <div class="form-error" id="formError" style="display:none"></div>
+
+    <!-- Submit -->
+    <button class="btn-analyse" id="btnPredict" onclick="submitPrediction()">
+      <span class="btn-icon">⚡</span>
+      Analyse Cardiovascular Risk
+      <span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+  <!-- ── Loading ───────────────────────────────────────────────── -->
+  <div class="loading-screen" id="loading" style="display:none">
+    <div class="loading-inner">
+      <div class="pulse-loader">
+        <div class="pl-ring pl-r1"></div>
+        <div class="pl-ring pl-r2"></div>
+        <div class="pl-heart">♥</div>
+      </div>
+      <p class="loading-title">Analysing your cardiovascular profile…</p>
+      <p class="loading-sub" id="loadingStep">Initialising ensemble models</p>
+    </div>
+  </div>
+
+  <!-- ── Results ───────────────────────────────────────────────── -->
+  <div class="results-section" id="results" style="display:none">
+
+    <!-- Risk card -->
+    <div class="risk-card" id="riskCard">
+      <div class="risk-left">
+        <div class="risk-tier-label" id="riskTierLabel"></div>
+        <div class="risk-title" id="riskTitle"></div>
+        <div class="risk-desc" id="riskDesc"></div>
+        <div class="risk-actions-row">
+          <button class="btn-summary" onclick="goToSummary()">
+            View Full Action Plan →
+          </button>
+          <button class="btn-reset" onclick="resetForm()">New Assessment</button>
+        </div>
+      </div>
+      <div class="risk-right">
+        <div class="risk-gauge">
+          <svg viewBox="0 0 140 80" class="gauge-svg">
+            <path d="M10,70 A60,60 0 0,1 130,70" fill="none" stroke="var(--gauge-track)" stroke-width="12" stroke-linecap="round"/>
+            <path d="M10,70 A60,60 0 0,1 130,70" fill="none" class="gauge-arc" stroke-width="12" stroke-linecap="round"
+                  stroke-dasharray="188.5" stroke-dashoffset="188.5" id="gaugeArc"/>
+          </svg>
+          <div class="gauge-center">
+            <span class="gauge-pct" id="gaugePct">0%</span>
+            <span class="gauge-label">Risk</span>
+          </div>
+        </div>
+        <div class="ensemble-note" id="ensembleNote"></div>
+      </div>
+    </div>
+
+    <!-- Model breakdown -->
+    <div class="results-card">
+      <div class="rc-header">
+        <h3 class="rc-title">Model-by-Model Breakdown</h3>
+        <span class="rc-badge" id="modelBadge"></span>
+      </div>
+      <div class="model-cards" id="modelCards"></div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="results-card">
+      <div class="rc-header">
+        <h3 class="rc-title">Clinical Recommendations</h3>
+        <span class="rc-badge">Personalised</span>
+      </div>
+      <div class="rec-cards" id="recCards"></div>
+    </div>
+
+    <div class="disclaimer">
+      ⚕ For educational purposes only. Not a substitute for professional medical advice.
+      Always consult a qualified cardiologist or physician for diagnosis and treatment.
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <span>CardioSense AI</span>
+  <span>·</span>
+  <span>B.Tech Final Year Project (BTP)</span>
+  <span>·</span>
+  <span>9 Models · 96% Ensemble Accuracy</span>
+  <span>·</span>
+  <span>© 2026</span>
+</footer>
+
+<!-- Hidden: store last summary for redirect -->
+<script id="summaryStore" type="application/json"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
