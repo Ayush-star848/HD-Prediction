@@ -11,7 +11,7 @@ A modern full-stack AI-powered web application for **heart disease prediction**,
 ### 🤖 Advanced Machine Learning
 
 * 9 Machine Learning Models
-* Voting Ensemble achieving **96% accuracy**
+* Voting Ensemble achieving up to **96% validation** accuracy on the training dataset.
 * Real-time prediction engine
 * Model comparison and metadata API
 
