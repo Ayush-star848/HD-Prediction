@@ -1,148 +1,76 @@
-❤️ CardioSense AI v2
+CardioSense AI v2 — Heart Disease Prediction App
+Full-stack Python web application with:
 
-AI-powered Heart Disease Prediction platform built using Flask, Machine Learning, and modern frontend architecture.
-Designed for both single-patient diagnosis and bulk clinical screening with actionable health recommendations and detailed follow-up plans.
-
-🚀 Features
-⚡ Predict heart disease risk using 9 Machine Learning models
-🧠 Includes a high-accuracy Voting Ensemble model (96%)
-📂 Bulk CSV upload support for 10–500 patients
-📋 Detailed patient summary with:
-Risk analysis
-Action plan
-Lifestyle recommendations
-Avoid list
-Follow-up timeline
-🌗 Dark / Light theme toggle
-📊 Real-time prediction results
-📥 CSV export support
-🧪 REST API architecture with health monitoring routes
-🎨 Modern responsive UI using:
-Syne
-Instrument Serif
-JetBrains Mono
-🛠 Tech Stack
-Backend
-Python
-Flask
-Scikit-learn
-XGBoost
-Pandas
-NumPy
-Frontend
-HTML
-CSS
-JavaScript
-Machine Learning
-Voting Ensemble
-XGBoost
-Gradient Boosting
-Random Forest
-SVM
-Logistic Regression
-KNN
-Decision Tree
-Naïve Bayes
-📂 Project Structure
+🌗 Dark / Light theme toggler
+⚡ 9 ML models including Voting Ensemble (96% accuracy)
+📂 Bulk CSV upload for 10–500 patients
+📋 Full detail summary page with action plan, avoid list, follow-up timeline
+🎨 Redesigned UI — Syne + Instrument Serif + JetBrains Mono
+Project Structure
 heart_disease_v2/
 ├── run.py
 ├── requirements.txt
 │
 ├── backend/
-│   ├── app.py
+│   ├── app.py                    Flask app factory
 │   ├── models/
-│   │   ├── trainer.py
-│   │   └── predictor.py
+│   │   ├── trainer.py            Train 9 ML models
+│   │   └── predictor.py          Inference engine
 │   ├── routes/
-│   │   ├── pages.py
-│   │   ├── predict.py
-│   │   ├── bulk.py
-│   │   └── health.py
+│   │   ├── pages.py              GET / /bulk /summary
+│   │   ├── predict.py            POST /api/predict
+│   │   ├── bulk.py               POST /api/bulk
+│   │   └── health.py             GET /api/health /api/models
 │   └── utils/
 │       ├── validators.py
-│       └── recommendations.py
+│       └── recommendations.py    Recommendations + detail summary
 │
 ├── frontend/
 │   ├── templates/
+│   │   ├── index.html            Main prediction page
+│   │   ├── bulk.html             CSV bulk upload page
+│   │   └── summary.html          Detail action plan page
 │   └── static/
+│       ├── css/style.css         Full themed stylesheet
+│       └── js/
+│           ├── app.js            Theme toggle + prediction logic
+│           └── bulk.js           Bulk upload, table, export
 │
 └── tests/
-⚡ ML Model Performance
+ML Models (9 total)
 Model	Accuracy
-⭐ Voting Ensemble	96%
+★ Voting Ensemble	96%
 XGBoost	95%
 Gradient Boosting	94%
 Random Forest	93%
 SVM	91%
 Logistic Regression	86%
-KNN	85%
+K-Nearest Neighbors	85%
 Decision Tree	84%
 Naïve Bayes	82%
-📸 Core Modules
-🩺 Single Patient Prediction
-
-Predict heart disease probability using clinical parameters with instant AI-generated recommendations.
-
-📂 Bulk CSV Prediction
-
-Upload CSV datasets containing multiple patients and generate predictions at scale.
-
-📋 AI Health Summary
-
-Detailed patient analysis page with:
-
-Risk severity
-Recommended actions
-Foods & habits to avoid
-Follow-up suggestions
-Preventive care guidance
-🌗 Theme Engine
-
-Fully responsive dark/light mode UI with persistent theme state.
-
-🔌 API Routes
-Method	Endpoint	Description
-GET	/	Main prediction interface
-GET	/bulk	Bulk CSV upload page
-GET	/summary	Detailed patient report
-POST	/api/predict	Single prediction API
-POST	/api/bulk	Bulk prediction API
-GET	/api/health	Health check endpoint
-GET	/api/models	Model metadata
-⚙️ Installation & Setup
-1️⃣ Clone Repository
-git clone <your-repo-url>
-cd heart_disease_v2
-2️⃣ Install Dependencies
+Quick Start
+# Install dependencies
 pip install -r requirements.txt
-3️⃣ Train ML Models
+
+# Train all 9 ML models
 python -m backend.models.trainer
-4️⃣ Run Application
+
+# Run the app
 python run.py
+# → http://localhost:5000
+Routes
+Method	Path	Description
+GET	/	Main prediction form
+GET	/bulk	Bulk CSV upload page
+GET	/summary?data=...	Full patient action plan
+POST	/api/predict	Single patient prediction
+POST	/api/bulk	Batch CSV prediction
+GET	/api/health	Liveness check
+GET	/api/models	Model metadata
+Bulk CSV Format
+Required columns: age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal
 
-Application runs at:
+Download a sample template from the Bulk Upload page.
 
-http://localhost:5000
-📂 Bulk CSV Format
-
-Required columns:
-
-age, sex, cp, trestbps, chol, fbs, restecg,
-thalach, exang, oldpeak, slope, ca, thal
-🧪 Running Tests
+Tests
 python -m pytest tests/ -v
-🎯 Resume Highlights
-Built a full-stack AI healthcare platform with scalable Flask architecture
-Implemented and compared 9 ML models with ensemble learning achieving 96% accuracy
-Developed bulk patient prediction workflow with CSV processing and export support
-Designed responsive modern UI with theme engine and detailed recommendation system
-📌 Future Improvements
-JWT Authentication
-Doctor Dashboard
-PDF Report Generation
-Email Notifications
-Cloud Deployment
-Model Explainability (SHAP/LIME)
-📄 License
-
-This project is built for educational and portfolio purposes.
