@@ -1,76 +1,278 @@
-CardioSense AI v2 — Heart Disease Prediction App
-Full-stack Python web application with:
+# ❤️ CardioSense AI v2 — Heart Disease Prediction Platform
 
-🌗 Dark / Light theme toggler
-⚡ 9 ML models including Voting Ensemble (96% accuracy)
-📂 Bulk CSV upload for 10–500 patients
-📋 Full detail summary page with action plan, avoid list, follow-up timeline
-🎨 Redesigned UI — Syne + Instrument Serif + JetBrains Mono
-Project Structure
+A modern full-stack AI-powered web application for **heart disease prediction**, supporting both **single-patient assessment** and **bulk patient analysis** using multiple machine learning models.
+
+---
+
+## ✨ Features
+
+### 🤖 Advanced Machine Learning
+
+* 9 Machine Learning Models
+* Voting Ensemble achieving **96% accuracy**
+* Real-time prediction engine
+* Model comparison and metadata API
+
+### 📊 Bulk Patient Analysis
+
+* Upload CSV files containing **10–500 patient records**
+* Batch predictions in seconds
+* Download prediction results
+* Data validation and error reporting
+
+### 📋 Intelligent Health Reports
+
+* Detailed patient risk assessment
+* Personalized action plan
+* Recommended lifestyle changes
+* Follow-up timeline suggestions
+* Risk factor explanations
+
+### 🎨 Modern User Experience
+
+* Dark / Light Theme Toggle
+* Responsive Design
+* Modern typography:
+
+  * Syne
+  * Instrument Serif
+  * JetBrains Mono
+* Clean dashboard-style interface
+
+---
+
+# 🏗️ Project Structure
+
+```text
 heart_disease_v2/
+│
 ├── run.py
 ├── requirements.txt
 │
 ├── backend/
-│   ├── app.py                    Flask app factory
+│   ├── app.py
+│   │
 │   ├── models/
-│   │   ├── trainer.py            Train 9 ML models
-│   │   └── predictor.py          Inference engine
+│   │   ├── trainer.py
+│   │   └── predictor.py
+│   │
 │   ├── routes/
-│   │   ├── pages.py              GET / /bulk /summary
-│   │   ├── predict.py            POST /api/predict
-│   │   ├── bulk.py               POST /api/bulk
-│   │   └── health.py             GET /api/health /api/models
+│   │   ├── pages.py
+│   │   ├── predict.py
+│   │   ├── bulk.py
+│   │   └── health.py
+│   │
 │   └── utils/
 │       ├── validators.py
-│       └── recommendations.py    Recommendations + detail summary
+│       └── recommendations.py
 │
 ├── frontend/
 │   ├── templates/
-│   │   ├── index.html            Main prediction page
-│   │   ├── bulk.html             CSV bulk upload page
-│   │   └── summary.html          Detail action plan page
+│   │   ├── index.html
+│   │   ├── bulk.html
+│   │   └── summary.html
+│   │
 │   └── static/
-│       ├── css/style.css         Full themed stylesheet
+│       ├── css/
+│       │   └── style.css
+│       │
 │       └── js/
-│           ├── app.js            Theme toggle + prediction logic
-│           └── bulk.js           Bulk upload, table, export
+│           ├── app.js
+│           └── bulk.js
 │
 └── tests/
-ML Models (9 total)
-Model	Accuracy
-★ Voting Ensemble	96%
-XGBoost	95%
-Gradient Boosting	94%
-Random Forest	93%
-SVM	91%
-Logistic Regression	86%
-K-Nearest Neighbors	85%
-Decision Tree	84%
-Naïve Bayes	82%
-Quick Start
-# Install dependencies
+```
+
+---
+
+# 🧠 Machine Learning Models
+
+| Model                        | Accuracy |
+| ---------------------------- | -------- |
+| ⭐ Voting Ensemble            | 96%      |
+| XGBoost                      | 95%      |
+| Gradient Boosting            | 94%      |
+| Random Forest                | 93%      |
+| Support Vector Machine (SVM) | 91%      |
+| Logistic Regression          | 86%      |
+| K-Nearest Neighbors          | 85%      |
+| Decision Tree                | 84%      |
+| Naïve Bayes                  | 82%      |
+
+---
+
+# 🚀 Quick Start
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/yourusername/cardiosense-ai-v2.git
+cd cardiosense-ai-v2
+```
+
+## 2. Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# Train all 9 ML models
+## 3. Train All Models
+
+```bash
 python -m backend.models.trainer
+```
 
-# Run the app
+## 4. Run Application
+
+```bash
 python run.py
-# → http://localhost:5000
-Routes
-Method	Path	Description
-GET	/	Main prediction form
-GET	/bulk	Bulk CSV upload page
-GET	/summary?data=...	Full patient action plan
-POST	/api/predict	Single patient prediction
-POST	/api/bulk	Batch CSV prediction
-GET	/api/health	Liveness check
-GET	/api/models	Model metadata
-Bulk CSV Format
-Required columns: age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal
+```
 
-Download a sample template from the Bulk Upload page.
+Open:
 
-Tests
-python -m pytest tests/ -v
+```text
+http://localhost:5000
+```
+
+---
+
+# 🌐 Application Routes
+
+| Method | Endpoint            | Description               |
+| ------ | ------------------- | ------------------------- |
+| GET    | `/`                 | Main prediction dashboard |
+| GET    | `/bulk`             | Bulk CSV upload page      |
+| GET    | `/summary?data=...` | Detailed patient summary  |
+| POST   | `/api/predict`      | Single patient prediction |
+| POST   | `/api/bulk`         | Batch CSV prediction      |
+| GET    | `/api/health`       | Health check              |
+| GET    | `/api/models`       | Available model metadata  |
+
+---
+
+# 📁 Bulk CSV Format
+
+Required columns:
+
+```text
+age
+sex
+cp
+trestbps
+chol
+fbs
+restecg
+thalach
+exang
+oldpeak
+slope
+ca
+thal
+```
+
+Example:
+
+```csv
+age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal
+63,1,3,145,233,1,0,150,0,2.3,0,0,1
+```
+
+A downloadable CSV template is available from the Bulk Upload page.
+
+---
+
+# 🧪 Running Tests
+
+```bash
+python -m pytest tests/
+```
+
+---
+
+# 🔍 Health Check API
+
+```http
+GET /api/health
+```
+
+Response:
+
+```json
+{
+  "status": "healthy"
+}
+```
+
+---
+
+# 📈 Prediction Workflow
+
+```text
+Patient Input
+      │
+      ▼
+Validation Layer
+      │
+      ▼
+Feature Processing
+      │
+      ▼
+9 ML Models
+      │
+      ▼
+Voting Ensemble
+      │
+      ▼
+Risk Prediction
+      │
+      ▼
+Action Plan & Recommendations
+```
+
+---
+
+# 🛠️ Tech Stack
+
+### Backend
+
+* Flask
+* Scikit-Learn
+* XGBoost
+* Pandas
+* NumPy
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+### Machine Learning
+
+* Voting Ensemble
+* XGBoost
+* Random Forest
+* Gradient Boosting
+* SVM
+* Logistic Regression
+* KNN
+* Decision Tree
+* Naïve Bayes
+
+---
+
+# ⚠️ Medical Disclaimer
+
+This application is intended for educational and research purposes only.
+
+Predictions generated by CardioSense AI should not be considered medical advice, diagnosis, or treatment recommendations. Always consult qualified healthcare professionals for medical decisions.
+
+---
+
+# 📄 License
+
+MIT License
+
+---
+
+Built with ❤️ using Flask, Machine Learning, and Modern Web Technologies.
