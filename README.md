@@ -1,72 +1,149 @@
-# ❤️ CardioSense AI v2 — Heart Disease Prediction Platform
+# ❤️ CardioSense AI
 
-A modern full-stack AI-powered web application for **heart disease prediction**, supporting both **single-patient assessment** and **bulk patient analysis** using multiple machine learning models.
+### AI-Powered Heart Disease Risk Prediction & Analysis Platform
 
-🚀 Live Demo: https://web-production-9eb80.up.railway.app/
+CardioSense AI is a full-stack machine learning web application designed to assess the risk of heart disease using patient health parameters and multiple machine learning models.
+
+The platform provides **single-patient prediction**, **bulk patient analysis through CSV uploads**, model-level prediction results, risk classification, and personalized health recommendations through an interactive web interface.
+
+🌐 **Live Demo:** [CardioSense AI](https://cardiosense-ai-q5wf.onrender.com/)
 
 ---
 
 ## ✨ Features
 
-### 🤖 Advanced Machine Learning
+### 🧠 Multi-Model Machine Learning
 
-* 9 Machine Learning Models
-* Voting Ensemble achieving up to **96% validation** accuracy on the training dataset.
-* Real-time prediction engine
-* Model comparison and metadata API
+CardioSense AI uses multiple machine learning algorithms to analyze cardiovascular risk:
 
-### 📊 Bulk Patient Analysis
+- Logistic Regression
+- Random Forest
+- Support Vector Machine (SVM)
+- XGBoost
+- Gradient Boosting
+- K-Nearest Neighbors (KNN)
+- Naïve Bayes
+- Decision Tree
+- Voting Ensemble
 
-* Upload CSV files containing **10–500 patient records**
-* Batch predictions in seconds
-* Download prediction results
-* Data validation and error reporting
-
-### 📋 Intelligent Health Reports
-
-* Detailed patient risk assessment
-* Personalized action plan
-* Recommended lifestyle changes
-* Follow-up timeline suggestions
-* Risk factor explanations
-
-### 🎨 Modern User Experience
-
-* Dark / Light Theme Toggle
-* Responsive Design
-* Modern typography:
-
-  * Syne
-  * Instrument Serif
-  * JetBrains Mono
-* Clean dashboard-style interface
+The system provides individual model predictions and combines model outputs through a **Voting Ensemble** to generate an overall risk assessment.
 
 ---
 
-# 🏗️ Project Structure
+### 🩺 Single Patient Risk Assessment
+
+Users can enter patient health parameters through the web interface, including:
+
+- Age
+- Sex
+- Chest pain type
+- Resting blood pressure
+- Cholesterol
+- Fasting blood sugar
+- Resting ECG results
+- Maximum heart rate
+- Exercise-induced angina
+- ST depression
+- Slope
+- Number of major vessels
+- Thalassemia-related measurement
+
+The application validates the submitted data before sending it to the prediction engine.
+
+---
+
+### 📊 Risk Classification
+
+CardioSense AI classifies cardiovascular risk into three levels:
+
+| Risk Level | Probability |
+|------------|-------------|
+| 🟢 **Low** | Below 40% |
+| 🟡 **Medium** | 40% – 64% |
+| 🔴 **High** | 65% and above |
+
+The final risk classification is based on the ensemble prediction probability.
+
+---
+
+### 📁 Bulk Patient Analysis
+
+CardioSense AI supports batch prediction through CSV file uploads.
+
+Users can:
+
+- Upload a CSV containing multiple patient records
+- Process **10–500 patient records**
+- Validate CSV structure and data
+- Identify invalid rows
+- Generate predictions for valid records
+- View total positive and negative cases
+- View low, medium, and high-risk cases
+- View average prediction probability
+- Analyze individual patient predictions
+
+The bulk prediction workflow uses the **Voting Ensemble** model.
+
+---
+
+### 📋 Health Reports & Recommendations
+
+After prediction, CardioSense AI generates a detailed health-oriented summary containing:
+
+- Risk assessment
+- Risk factors
+- Recommended lifestyle changes
+- Diet recommendations
+- Exercise guidance
+- Medical follow-up suggestions
+- Blood pressure management guidance
+- Cholesterol-related recommendations
+- Sleep and stress recommendations
+- Health monitoring suggestions
+
+> ⚠️ These recommendations are intended for educational purposes and should not replace professional medical advice.
+
+---
+
+### 🎨 Modern Responsive Interface
+
+The frontend provides:
+
+- Responsive dashboard interface
+- Dark / Light theme
+- Interactive prediction workflow
+- Model comparison
+- Risk visualization
+- Detailed prediction summaries
+- Bulk analysis interface
+- Modern and responsive UI
+
+---
+
+# 🏗️ Project Architecture
 
 ```text
-heart_disease_v2/
-│
-├── run.py
-├── requirements.txt
+CardioSense/
 │
 ├── backend/
 │   ├── app.py
 │   │
 │   ├── models/
+│   │   ├── predictor.py
 │   │   ├── trainer.py
-│   │   └── predictor.py
+│   │   └── __init__.py
 │   │
 │   ├── routes/
 │   │   ├── pages.py
 │   │   ├── predict.py
 │   │   ├── bulk.py
-│   │   └── health.py
+│   │   ├── health.py
+│   │   └── __init__.py
 │   │
 │   └── utils/
 │       ├── validators.py
-│       └── recommendations.py
+│       ├── recommendations.py
+│       └── __init__.py
 │
 ├── frontend/
 │   ├── templates/
@@ -82,206 +159,80 @@ heart_disease_v2/
 │           ├── app.js
 │           └── bulk.js
 │
-└── tests/
+├── data/
+│   └── models/
+│       ├── scaler.pkl
+│       ├── logistic_regression.pkl
+│       ├── random_forest.pkl
+│       ├── svm.pkl
+│       ├── xgboost.pkl
+│       ├── gradient_boosting.pkl
+│       ├── knn.pkl
+│       ├── naive_bayes.pkl
+│       ├── decision_tree.pkl
+│       └── voting_ensemble.pkl
+│
+├── tests/
+│   ├── test_routes.py
+│   ├── test_validators.py
+│   └── __init__.py
+│
+├── run.py
+├── requirements.txt
+└── README.md
 ```
+---
+
+# 🤖 Machine Learning Models
+
+CardioSense AI uses eight individual classification algorithms along with a Voting Ensemble.
+
+| Model | Reported Accuracy |
+|-------|-------------------|
+| ⭐ **Voting Ensemble** | **96%** |
+| **XGBoost** | **95%** |
+| **Gradient Boosting** | **94%** |
+| **Random Forest** | **93%** |
+| **Support Vector Machine** | **91%** |
+| **Logistic Regression** | **86%** |
+| **K-Nearest Neighbors** | **85%** |
+| **Decision Tree** | **84%** |
+| **Naïve Bayes** | **82%** |
+
+> Accuracy values represent the model evaluation configuration used in this project and should not be interpreted as clinical diagnostic accuracy.
 
 ---
 
-# 🧠 Machine Learning Models
-
-| Model                        | Accuracy |
-| ---------------------------- | -------- |
-| ⭐ Voting Ensemble            | 96%      |
-| XGBoost                      | 95%      |
-| Gradient Boosting            | 94%      |
-| Random Forest                | 93%      |
-| Support Vector Machine (SVM) | 91%      |
-| Logistic Regression          | 86%      |
-| K-Nearest Neighbors          | 85%      |
-| Decision Tree                | 84%      |
-| Naïve Bayes                  | 82%      |
-
----
-
-# 🚀 Quick Start
-
-## 1. Clone Repository
-
-```bash
-git clone https://github.com/yourusername/cardiosense-ai-v2.git
-cd cardiosense-ai-v2
-```
-
-## 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-## 3. Train All Models
-
-```bash
-python -m backend.models.trainer
-```
-
-## 4. Run Application
-
-```bash
-python run.py
-```
-
-Open:
+# 🔄 Prediction Workflow
 
 ```text
-http://localhost:5000
-```
-
----
-
-# 🌐 Application Routes
-
-| Method | Endpoint            | Description               |
-| ------ | ------------------- | ------------------------- |
-| GET    | `/`                 | Main prediction dashboard |
-| GET    | `/bulk`             | Bulk CSV upload page      |
-| GET    | `/summary?data=...` | Detailed patient summary  |
-| POST   | `/api/predict`      | Single patient prediction |
-| POST   | `/api/bulk`         | Batch CSV prediction      |
-| GET    | `/api/health`       | Health check              |
-| GET    | `/api/models`       | Available model metadata  |
-
----
-
-# 📁 Bulk CSV Format
-
-Required columns:
-
-```text
-age
-sex
-cp
-trestbps
-chol
-fbs
-restecg
-thalach
-exang
-oldpeak
-slope
-ca
-thal
-```
-
-Example:
-
-```csv
-age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal
-63,1,3,145,233,1,0,150,0,2.3,0,0,1
-```
-
-A downloadable CSV template is available from the Bulk Upload page.
-
----
-
-# 🧪 Running Tests
-
-```bash
-python -m pytest tests/
-```
-
----
-
-# 🔍 Health Check API
-
-```http
-GET /api/health
-```
-
-Response:
-
-```json
-{
-  "status": "healthy"
-}
-```
-
----
-
-# 📈 Prediction Workflow
-
-```text
-Patient Input
-      │
-      ▼
-Validation Layer
-      │
-      ▼
-Feature Processing
-      │
-      ▼
-9 ML Models
-      │
-      ▼
-Voting Ensemble
-      │
-      ▼
-Risk Prediction
-      │
-      ▼
-Action Plan & Recommendations
-```
-
----
-
-# 🛠️ Tech Stack
-
-### Backend
-
-* Flask
-* Scikit-Learn
-* XGBoost
-* Pandas
-* NumPy
-
-### Frontend
-
-* HTML5
-* CSS3
-* JavaScript (ES6)
-
-### Machine Learning
-
-* Voting Ensemble
-* XGBoost
-* Random Forest
-* Gradient Boosting
-* SVM
-* Logistic Regression
-* KNN
-* Decision Tree
-* Naïve Bayes
-
----
-
-# ⚠️ Medical Disclaimer
-
-This application is intended for educational and research purposes only.
-
-Predictions generated by CardioSense AI should not be considered medical advice, diagnosis, or treatment recommendations. Always consult qualified healthcare professionals for medical decisions.
-
----
-
-## 👥 Contributors
-
-- @Ayush-star848
-- @Kunal13Kashyap
-
----
-
-# 📄 License
-
-MIT License
-
----
-
-Built with ❤️ using Flask, Machine Learning, and Modern Web Technologies.
+                    Patient Input
+                         │
+                         ▼
+                 Input Validation
+                         │
+                         ▼
+                 Feature Processing
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │   Machine Learning  │
+              │       Models        │
+              └─────────────────────┘
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+       Model 1        Model 2        Model N
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                 Voting Ensemble
+                         │
+                         ▼
+                 Risk Probability
+                         │
+                         ▼
+             Low / Medium / High Risk
+                         │
+                         ▼
+            Recommendations & Report
